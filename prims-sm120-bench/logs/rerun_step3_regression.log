@@ -1,0 +1,25 @@
+test_layout_robustness_cases (__main__.TestFlashInferDenseAttentionBackendCorrectness.test_layout_robustness_cases) ... [CI Test Method] TestFlashInferDenseAttentionBackendCorrectness.test_layout_robustness_cases
+ok
+test_projected_dense_attention_cases (__main__.TestFlashInferDenseAttentionBackendCorrectness.test_projected_dense_attention_cases) ... [CI Test Method] TestFlashInferDenseAttentionBackendCorrectness.test_projected_dense_attention_cases
+ok
+test_runner_mode_cuda_graph_decode_cases (__main__.TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_cuda_graph_decode_cases) ... [CI Test Method] TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_cuda_graph_decode_cases
+ok
+test_runner_mode_eagle_draft_cuda_graph_runner_cases (__main__.TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_eagle_draft_cuda_graph_runner_cases) ... [CI Test Method] TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_eagle_draft_cuda_graph_runner_cases
+  0%|          | 0/1 [00:00<?, ?it/s]Capturing batches (bs=4 avail_mem=0.00 GB):   0%|          | 0/1 [00:00<?, ?it/s]Capturing batches (bs=4 avail_mem=0.00 GB): 100%|██████████| 1/1 [00:00<00:00, 21.47it/s]
+  0%|          | 0/1 [00:00<?, ?it/s]Capturing batches (bs=4 avail_mem=0.00 GB):   0%|          | 0/1 [00:00<?, ?it/s]Capturing batches (bs=4 avail_mem=0.00 GB): 100%|██████████| 1/1 [00:00<00:00,  2.38it/s]Capturing batches (bs=4 avail_mem=0.00 GB): 100%|██████████| 1/1 [00:00<00:00,  2.38it/s]
+ok
+test_runner_mode_frozen_kv_mtp_cuda_graph_runner_cases (__main__.TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_frozen_kv_mtp_cuda_graph_runner_cases) ... [CI Test Method] TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_frozen_kv_mtp_cuda_graph_runner_cases
+  0%|          | 0/1 [00:00<?, ?it/s]Capturing batches (bs=4 avail_mem=0.00 GB):   0%|          | 0/1 [00:00<?, ?it/s]Capturing batches (bs=4 avail_mem=0.00 GB): 100%|██████████| 1/1 [00:00<00:00, 27.69it/s]
+ok
+test_runner_mode_spec_verify_cases (__main__.TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_spec_verify_cases) ... [CI Test Method] TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_spec_verify_cases
+ok
+test_runner_mode_spec_verify_cuda_graph_cases (__main__.TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_spec_verify_cuda_graph_cases) ... [CI Test Method] TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_spec_verify_cuda_graph_cases
+ok
+test_runner_mode_split_op_extend_cases (__main__.TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_split_op_extend_cases) ... [CI Test Method] TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_split_op_extend_cases
+ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 18.508s
+
+OK
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute

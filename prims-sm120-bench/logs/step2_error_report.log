@@ -1,0 +1,37 @@
+gqa_head_dim_128_ragged_batch {
+  "cosine": 0.9990261793136597,
+  "out_max_abs": 0.171875,
+  "out_mean_abs": 0.00444811163470149,
+  "out_rel_l2": 0.044122617691755295,
+  "lse_max_abs": 0.1371607780456543,
+  "lse_mean_abs": 0.007360021583735943,
+  "o_vs_o_with_lse_max_abs": 0.0,
+  "nan_in_out": false,
+  "lse_num_over_0.1": 12,
+  "lse_numel": 42944,
+  "floor_cosine": 0.9991791844367981,
+  "floor_out_max_abs": 0.15625,
+  "floor_lse_max_abs": 0.13697052001953125,
+  "prims_vs_floor_cosine": 0.9998412728309631,
+  "prims_vs_floor_max_abs": 0.0546875,
+  "prims_vs_floor_lse_max_abs": 0.0023331642150878906
+}
+gqa_head_dim_256_with_layer_scaling_and_kv_scale {
+  "cosine": 0.9963176846504211,
+  "out_max_abs": 3.46875,
+  "out_mean_abs": 0.1330094039440155,
+  "out_rel_l2": 0.08576611429452896,
+  "lse_max_abs": 0.879730224609375,
+  "lse_mean_abs": 0.10071201622486115,
+  "o_vs_o_with_lse_max_abs": 0.0,
+  "nan_in_out": false,
+  "lse_num_over_0.1": 24226,
+  "lse_numel": 61584,
+  "floor_cosine": 0.9963490962982178,
+  "floor_out_max_abs": 3.46875,
+  "floor_lse_max_abs": 0.8797416687011719,
+  "prims_vs_floor_cosine": 0.9999637007713318,
+  "prims_vs_floor_max_abs": 0.28125,
+  "prims_vs_floor_lse_max_abs": 0.0022983551025390625
+}
+JSON: {"gqa_head_dim_128_ragged_batch": {"cosine": 0.9990261793136597, "out_max_abs": 0.171875, "out_mean_abs": 0.00444811163470149, "out_rel_l2": 0.044122617691755295, "lse_max_abs": 0.1371607780456543, "lse_mean_abs": 0.007360021583735943, "o_vs_o_with_lse_max_abs": 0.0, "nan_in_out": false, "lse_num_over_0.1": 12, "lse_numel": 42944, "floor_cosine": 0.9991791844367981, "floor_out_max_abs": 0.15625, "floor_lse_max_abs": 0.13697052001953125, "prims_vs_floor_cosine": 0.9998412728309631, "prims_vs_floor_max_abs": 0.0546875, "prims_vs_floor_lse_max_abs": 0.0023331642150878906}, "gqa_head_dim_256_with_layer_scaling_and_kv_scale": {"cosine": 0.9963176846504211, "out_max_abs": 3.46875, "out_mean_abs": 0.1330094039440155, "out_rel_l2": 0.08576611429452896, "lse_max_abs": 0.879730224609375, "lse_mean_abs": 0.10071201622486115, "o_vs_o_with_lse_max_abs": 0.0, "nan_in_out": false, "lse_num_over_0.1": 24226, "lse_numel": 61584, "floor_cosine": 0.9963490962982178, "floor_out_max_abs": 3.46875, "floor_lse_max_abs": 0.8797416687011719, "prims_vs_floor_cosine": 0.9999637007713318, "prims_vs_floor_max_abs": 0.28125, "prims_vs_floor_lse_max_abs": 0.0022983551025390625}}

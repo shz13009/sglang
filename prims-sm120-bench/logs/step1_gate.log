@@ -1,0 +1,17 @@
+test_out_of_range_values_saturate_and_scale_divides (__main__.TestQuantizeToFP8.test_out_of_range_values_saturate_and_scale_divides) ... [CI Test Method] TestQuantizeToFP8.test_out_of_range_values_saturate_and_scale_divides
+ok
+test_output_is_contiguous_for_strided_input (__main__.TestQuantizeToFP8.test_output_is_contiguous_for_strided_input) ... [CI Test Method] TestQuantizeToFP8.test_output_is_contiguous_for_strided_input
+ok
+test_each_disqualifier_is_reported (__main__.TestSM120FP8RaggedPrefillGate.test_each_disqualifier_is_reported) ... [CI Test Method] TestSM120FP8RaggedPrefillGate.test_each_disqualifier_is_reported
+ok
+test_supported_configuration_has_no_reason (__main__.TestSM120FP8RaggedPrefillGate.test_supported_configuration_has_no_reason) ... [CI Test Method] TestSM120FP8RaggedPrefillGate.test_supported_configuration_has_no_reason
+ok
+test_each_unsupported_layer_falls_back (__main__.TestSM120FP8RaggedPrefillLayerGate.test_each_unsupported_layer_falls_back) ... [CI Test Method] TestSM120FP8RaggedPrefillLayerGate.test_each_unsupported_layer_falls_back
+ok
+test_matching_decoder_layer_is_supported (__main__.TestSM120FP8RaggedPrefillLayerGate.test_matching_decoder_layer_is_supported) ... [CI Test Method] TestSM120FP8RaggedPrefillLayerGate.test_matching_decoder_layer_is_supported
+ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+OK

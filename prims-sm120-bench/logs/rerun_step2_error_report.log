@@ -1,0 +1,46 @@
+test_gqa_head_dim_128_ragged_batch {
+  "case": {
+    "num_qo_heads": 32,
+    "num_kv_heads": 8,
+    "head_dim": 128,
+    "seq_lens": [
+      1,
+      17,
+      300,
+      1024
+    ],
+    "scaling": 0.08838834764831845,
+    "kv_scale": 1.0
+  },
+  "prims_vs_floor_cosine": 0.9998412728309631,
+  "prims_vs_floor_lse_max_abs": 0.0023331642150878906,
+  "o_vs_o_with_lse_max_abs": 0.0,
+  "prims_vs_bf16_cosine": 0.9990261793136597,
+  "prims_vs_floor_out_max_abs": 0.0546875,
+  "prims_vs_bf16_out_max_abs": 0.171875,
+  "floor_vs_bf16_cosine": 0.9991791844367981,
+  "nan_in_out": false
+}
+test_gqa_head_dim_256_with_layer_scaling_and_kv_scale {
+  "case": {
+    "num_qo_heads": 24,
+    "num_kv_heads": 4,
+    "head_dim": 256,
+    "seq_lens": [
+      5,
+      513,
+      2048
+    ],
+    "scaling": 0.05,
+    "kv_scale": 4.0
+  },
+  "prims_vs_floor_cosine": 0.9999521374702454,
+  "prims_vs_floor_lse_max_abs": 0.0020427703857421875,
+  "o_vs_o_with_lse_max_abs": 0.0,
+  "prims_vs_bf16_cosine": 0.9968849420547485,
+  "prims_vs_floor_out_max_abs": 0.34375,
+  "prims_vs_bf16_out_max_abs": 2.84375,
+  "floor_vs_bf16_cosine": 0.9969298839569092,
+  "nan_in_out": false
+}
+JSON: {"test_gqa_head_dim_128_ragged_batch": {"case": {"num_qo_heads": 32, "num_kv_heads": 8, "head_dim": 128, "seq_lens": [1, 17, 300, 1024], "scaling": 0.08838834764831845, "kv_scale": 1.0}, "prims_vs_floor_cosine": 0.9998412728309631, "prims_vs_floor_lse_max_abs": 0.0023331642150878906, "o_vs_o_with_lse_max_abs": 0.0, "prims_vs_bf16_cosine": 0.9990261793136597, "prims_vs_floor_out_max_abs": 0.0546875, "prims_vs_bf16_out_max_abs": 0.171875, "floor_vs_bf16_cosine": 0.9991791844367981, "nan_in_out": false}, "test_gqa_head_dim_256_with_layer_scaling_and_kv_scale": {"case": {"num_qo_heads": 24, "num_kv_heads": 4, "head_dim": 256, "seq_lens": [5, 513, 2048], "scaling": 0.05, "kv_scale": 4.0}, "prims_vs_floor_cosine": 0.9999521374702454, "prims_vs_floor_lse_max_abs": 0.0020427703857421875, "o_vs_o_with_lse_max_abs": 0.0, "prims_vs_bf16_cosine": 0.9968849420547485, "prims_vs_floor_out_max_abs": 0.34375, "prims_vs_bf16_out_max_abs": 2.84375, "floor_vs_bf16_cosine": 0.9969298839569092, "nan_in_out": false}}

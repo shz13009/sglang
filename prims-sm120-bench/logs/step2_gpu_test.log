@@ -1,0 +1,106 @@
+test_gqa_head_dim_128_ragged_batch (__main__.TestSM120FP8RaggedPrefill.test_gqa_head_dim_128_ragged_batch) ... [CI Test Method] TestSM120FP8RaggedPrefill.test_gqa_head_dim_128_ragged_batch
+2026-11-25 19:49:40,705 - INFO - core.py:635 - flashinfer.jit: Building JIT module batch_prefill_with_kv_cache_dtype_q_bf16_dtype_kv_bf16_dtype_o_bf16_dtype_idx_i32_head_dim_qk_128_head_dim_vo_128_posenc_0_use_swa_False_use_logits_cap_False_f16qk_False_kv_stride_equal; this can take several minutes on first use.
+2026-11-25 19:50:09,100 - INFO - cute_dsl_core.py:206 - flashinfer.jit: Compiling CuTe-DSL kernel sm120_prims_fmha_fp8_sm120a_cute_dsl/ragged_float8_e4m3fn_bfloat16_hq32_hkv8_d128_causal1_kt128_qt128_lse0_balanced1_skip0
+2026-11-25 19:50:11,479 - INFO - cute_dsl_core.py:308 - flashinfer.jit: Persisted CuTe-DSL kernel to /home/shz13009/.cache/sglang/.cache/flashinfer/0.7.4/120f/cached_ops/sm120_prims_fmha_fp8_sm120a_cute_dsl/ragged_float8_e4m3fn_bfloat16_hq32_hkv8_d128_causal1_kt128_qt128_lse0_balanced1_skip0.o
+2026-11-25 19:50:12,847 - INFO - cute_dsl_core.py:206 - flashinfer.jit: Compiling CuTe-DSL kernel sm120_prims_fmha_fp8_sm120a_cute_dsl/ragged_float8_e4m3fn_bfloat16_hq32_hkv8_d128_causal1_kt128_qt128_lse1_balanced1_skip0
+2026-11-25 19:50:15,016 - INFO - cute_dsl_core.py:308 - flashinfer.jit: Persisted CuTe-DSL kernel to /home/shz13009/.cache/sglang/.cache/flashinfer/0.7.4/120f/cached_ops/sm120_prims_fmha_fp8_sm120a_cute_dsl/ragged_float8_e4m3fn_bfloat16_hq32_hkv8_d128_causal1_kt128_qt128_lse1_balanced1_skip0.o
+Traceback (most recent call last):
+  File "/home/shz13009/code/sglang/python/sglang/srt/utils/common.py", line 409, in retry
+    return fn()
+           ^^^^
+  File "/home/shz13009/code/sglang/python/sglang/test/test_utils.py", line 2527, in <lambda>
+    lambda: super(CustomTestCase, self)._callTestMethod(method),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shz13009/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/unittest/case.py", line 589, in _callTestMethod
+    if method() is not None:
+       ^^^^^^^^
+  File "/home/shz13009/code/sglang/test/registered/kernels/ops/attention/test_flashinfer_sm120_fp8_ragged_prefill.py", line 122, in test_gqa_head_dim_128_ragged_batch
+    self._assert_close_to_reference(
+  File "/home/shz13009/code/sglang/test/registered/kernels/ops/attention/test_flashinfer_sm120_fp8_ragged_prefill.py", line 119, in _assert_close_to_reference
+    torch.testing.assert_close(lse, ref_lse, atol=1e-1, rtol=0)
+  File "/home/shz13009/code/sglang/.venv/lib/python3.12/site-packages/torch/testing/_comparison.py", line 1689, in assert_close
+    raise error_metas[0].to_error(msg)
+AssertionError: Tensor-likes are not close!
+
+Mismatched elements: 12 / 42944 (0.0%)
+Greatest absolute difference: 0.1371607780456543 at index (9, 4) (up to 0.1 allowed)
+Greatest relative difference: 0.28296151757240295 at index (319, 4) (up to 0 allowed)
+ERROR
+test_gqa_head_dim_256_with_layer_scaling_and_kv_scale (__main__.TestSM120FP8RaggedPrefill.test_gqa_head_dim_256_with_layer_scaling_and_kv_scale) ... [CI Test Method] TestSM120FP8RaggedPrefill.test_gqa_head_dim_256_with_layer_scaling_and_kv_scale
+2026-11-25 19:50:24,883 - INFO - core.py:635 - flashinfer.jit: Building JIT module batch_prefill_with_kv_cache_dtype_q_bf16_dtype_kv_bf16_dtype_o_bf16_dtype_idx_i32_head_dim_qk_256_head_dim_vo_256_posenc_0_use_swa_False_use_logits_cap_False_f16qk_False_kv_stride_equal; this can take several minutes on first use.
+2026-11-25 19:50:52,602 - INFO - cute_dsl_core.py:206 - flashinfer.jit: Compiling CuTe-DSL kernel sm120_prims_fmha_fp8_sm120a_cute_dsl/ragged_float8_e4m3fn_bfloat16_hq24_hkv4_d256_causal1_kt128_qt128_lse0_balanced1_skip0
+2026-11-25 19:50:55,668 - INFO - cute_dsl_core.py:308 - flashinfer.jit: Persisted CuTe-DSL kernel to /home/shz13009/.cache/sglang/.cache/flashinfer/0.7.4/120f/cached_ops/sm120_prims_fmha_fp8_sm120a_cute_dsl/ragged_float8_e4m3fn_bfloat16_hq24_hkv4_d256_causal1_kt128_qt128_lse0_balanced1_skip0.o
+2026-11-25 19:50:55,674 - INFO - cute_dsl_core.py:206 - flashinfer.jit: Compiling CuTe-DSL kernel sm120_prims_fmha_fp8_sm120a_cute_dsl/ragged_float8_e4m3fn_bfloat16_hq24_hkv4_d256_causal1_kt128_qt128_lse1_balanced1_skip0
+2026-11-25 19:50:58,581 - INFO - cute_dsl_core.py:308 - flashinfer.jit: Persisted CuTe-DSL kernel to /home/shz13009/.cache/sglang/.cache/flashinfer/0.7.4/120f/cached_ops/sm120_prims_fmha_fp8_sm120a_cute_dsl/ragged_float8_e4m3fn_bfloat16_hq24_hkv4_d256_causal1_kt128_qt128_lse1_balanced1_skip0.o
+Traceback (most recent call last):
+  File "/home/shz13009/code/sglang/python/sglang/srt/utils/common.py", line 409, in retry
+    return fn()
+           ^^^^
+  File "/home/shz13009/code/sglang/python/sglang/test/test_utils.py", line 2527, in <lambda>
+    lambda: super(CustomTestCase, self)._callTestMethod(method),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shz13009/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/unittest/case.py", line 589, in _callTestMethod
+    if method() is not None:
+       ^^^^^^^^
+  File "/home/shz13009/code/sglang/test/registered/kernels/ops/attention/test_flashinfer_sm120_fp8_ragged_prefill.py", line 132, in test_gqa_head_dim_256_with_layer_scaling_and_kv_scale
+    self._assert_close_to_reference(
+  File "/home/shz13009/code/sglang/test/registered/kernels/ops/attention/test_flashinfer_sm120_fp8_ragged_prefill.py", line 115, in _assert_close_to_reference
+    self.assertGreater(cos.item(), 0.998)
+  File "/home/shz13009/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/unittest/case.py", line 1269, in assertGreater
+    self.fail(self._formatMessage(msg, standardMsg))
+  File "/home/shz13009/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/unittest/case.py", line 715, in fail
+    raise self.failureException(msg)
+AssertionError: 0.9963176846504211 not greater than 0.998
+ERROR
+
+======================================================================
+ERROR: test_gqa_head_dim_128_ragged_batch (__main__.TestSM120FP8RaggedPrefill.test_gqa_head_dim_128_ragged_batch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/shz13009/code/sglang/python/sglang/srt/utils/common.py", line 409, in retry
+    return fn()
+           ^^^^
+  File "/home/shz13009/code/sglang/python/sglang/test/test_utils.py", line 2527, in <lambda>
+    lambda: super(CustomTestCase, self)._callTestMethod(method),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tensor-likes are not close!
+
+Mismatched elements: 12 / 42944 (0.0%)
+Greatest absolute difference: 0.1371607780456543 at index (9, 4) (up to 0.1 allowed)
+Greatest relative difference: 0.28296151757240295 at index (319, 4) (up to 0 allowed)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/shz13009/code/sglang/python/sglang/test/test_utils.py", line 2526, in _callTestMethod
+    retry(
+  File "/home/shz13009/code/sglang/python/sglang/srt/utils/common.py", line 424, in retry
+    raise Exception("retry() exceed maximum number of retries.")
+Exception: retry() exceed maximum number of retries.
+
+======================================================================
+ERROR: test_gqa_head_dim_256_with_layer_scaling_and_kv_scale (__main__.TestSM120FP8RaggedPrefill.test_gqa_head_dim_256_with_layer_scaling_and_kv_scale)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/shz13009/code/sglang/python/sglang/srt/utils/common.py", line 409, in retry
+    return fn()
+           ^^^^
+  File "/home/shz13009/code/sglang/python/sglang/test/test_utils.py", line 2527, in <lambda>
+    lambda: super(CustomTestCase, self)._callTestMethod(method),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.9963176846504211 not greater than 0.998
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/shz13009/code/sglang/python/sglang/test/test_utils.py", line 2526, in _callTestMethod
+    retry(
+  File "/home/shz13009/code/sglang/python/sglang/srt/utils/common.py", line 424, in retry
+    raise Exception("retry() exceed maximum number of retries.")
+Exception: retry() exceed maximum number of retries.
+
+----------------------------------------------------------------------
+Ran 2 tests in 79.493s
+
+FAILED (errors=2)
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute

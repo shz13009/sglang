@@ -1,0 +1,41 @@
+In file included from /home/shz13009/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/include/python3.12/Python.h:12,
+                 from /home/shz13009/code/sglang/.venv/lib/python3.12/site-packages/triton/backends/nvidia/driver.c:9:
+/home/shz13009/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/include/python3.12/pyconfig.h:1877:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1877 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /home/shz13009/code/sglang/.venv/lib/python3.12/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /home/shz13009/code/sglang/.venv/lib/python3.12/site-packages/triton/backends/nvidia/driver.c:1:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+test_layout_robustness_cases (__main__.TestFlashInferDenseAttentionBackendCorrectness.test_layout_robustness_cases) ... [CI Test Method] TestFlashInferDenseAttentionBackendCorrectness.test_layout_robustness_cases
+2026-11-25 19:52:34,437 - INFO - core.py:635 - flashinfer.jit: Building JIT module batch_prefill_with_kv_cache_dtype_q_f16_dtype_kv_f16_dtype_o_f16_dtype_idx_i32_head_dim_qk_64_head_dim_vo_64_posenc_0_use_swa_False_use_logits_cap_False_f16qk_False_kv_stride_equal; this can take several minutes on first use.
+2026-11-25 19:53:04,577 - INFO - core.py:635 - flashinfer.jit: Building JIT module cascade; this can take several minutes on first use.
+2026-11-25 19:53:16,243 - INFO - core.py:635 - flashinfer.jit: Building JIT module batch_decode_with_kv_cache_dtype_q_f16_dtype_kv_f16_dtype_o_f16_dtype_idx_i32_head_dim_qk_64_head_dim_vo_64_posenc_0_use_swa_False_use_logits_cap_False; this can take several minutes on first use.
+ok
+test_projected_dense_attention_cases (__main__.TestFlashInferDenseAttentionBackendCorrectness.test_projected_dense_attention_cases) ... [CI Test Method] TestFlashInferDenseAttentionBackendCorrectness.test_projected_dense_attention_cases
+ok
+test_runner_mode_cuda_graph_decode_cases (__main__.TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_cuda_graph_decode_cases) ... [CI Test Method] TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_cuda_graph_decode_cases
+ok
+test_runner_mode_eagle_draft_cuda_graph_runner_cases (__main__.TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_eagle_draft_cuda_graph_runner_cases) ... [CI Test Method] TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_eagle_draft_cuda_graph_runner_cases
+  0%|          | 0/1 [00:00<?, ?it/s]Capturing batches (bs=4 avail_mem=0.00 GB):   0%|          | 0/1 [00:00<?, ?it/s]Capturing batches (bs=4 avail_mem=0.00 GB): 100%|██████████| 1/1 [00:00<00:00,  7.90it/s]Capturing batches (bs=4 avail_mem=0.00 GB): 100%|██████████| 1/1 [00:00<00:00,  7.90it/s]
+  0%|          | 0/1 [00:00<?, ?it/s]Capturing batches (bs=4 avail_mem=0.00 GB):   0%|          | 0/1 [00:00<?, ?it/s]Capturing batches (bs=4 avail_mem=0.00 GB): 100%|██████████| 1/1 [00:01<00:00,  1.78s/it]Capturing batches (bs=4 avail_mem=0.00 GB): 100%|██████████| 1/1 [00:01<00:00,  1.78s/it]
+ok
+test_runner_mode_frozen_kv_mtp_cuda_graph_runner_cases (__main__.TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_frozen_kv_mtp_cuda_graph_runner_cases) ... [CI Test Method] TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_frozen_kv_mtp_cuda_graph_runner_cases
+  0%|          | 0/1 [00:00<?, ?it/s]Capturing batches (bs=4 avail_mem=0.00 GB):   0%|          | 0/1 [00:00<?, ?it/s]Capturing batches (bs=4 avail_mem=0.00 GB): 100%|██████████| 1/1 [00:00<00:00,  9.17it/s]Capturing batches (bs=4 avail_mem=0.00 GB): 100%|██████████| 1/1 [00:00<00:00,  9.15it/s]
+ok
+test_runner_mode_spec_verify_cases (__main__.TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_spec_verify_cases) ... [CI Test Method] TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_spec_verify_cases
+2026-11-25 19:53:56,595 - INFO - core.py:635 - flashinfer.jit: Building JIT module quantization; this can take several minutes on first use.
+ok
+test_runner_mode_spec_verify_cuda_graph_cases (__main__.TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_spec_verify_cuda_graph_cases) ... [CI Test Method] TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_spec_verify_cuda_graph_cases
+ok
+test_runner_mode_split_op_extend_cases (__main__.TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_split_op_extend_cases) ... [CI Test Method] TestFlashInferDenseAttentionBackendCorrectness.test_runner_mode_split_op_extend_cases
+ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 113.892s
+
+OK
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute

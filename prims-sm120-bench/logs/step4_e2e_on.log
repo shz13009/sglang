@@ -1,0 +1,20 @@
+HEAD c57851364a MODE=on
+SERVER_READY after ~106s
+[2026-11-25 20:15:31] server_args={'model_path': 'Qwen/Qwen3-8B', 'tokenizer_path': 'Qwen/Qwen3-8B', 'tokenizer_mode': 'auto', 'tokenizer_backend': 'huggingface', 'tokenizer_worker_num': 1, 'detokenizer_worker_num': 1, 'skip_tokenizer_init': False, 'load_format': 'auto', 'model_loader_extra_config':
+[2026-11-25 20:16:59 PID12060] KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 149609, K size: 5.14 GB, V size: 5.14 GB
+[2026-11-25 20:17:00 PID12060] FlashInfer prefill: SM120 FP8 ragged attention enabled.
+[2026-11-25 20:17:18 PID12060] max_total_num_tokens=149609, chunked_prefill_size=4096, max_prefill_tokens=16384, max_running_requests=2048, context_len=40960, available_gpu_mem=2.18 GB
+== GSM8K
+Accuracy: 0.924
+Invalid: 0.002
+Latency: 24.536 s
+Output throughput: 2456.134 token/s
+== prefill-heavy
+L=8192 C=1 seed=101 cached_tokens=10157: Input token throughput (tok/s): 13128.56 ;Mean TTFT (ms): 617.27 ;Median TTFT (ms): 711.60 ;
+L=8192 C=4 seed=102 cached_tokens=8265: Input token throughput (tok/s): 11917.90 ;Mean TTFT (ms): 2496.56 ;Median TTFT (ms): 2718.91 ;
+L=16384 C=1 seed=103 cached_tokens=16792: Input token throughput (tok/s): 10071.42 ;Mean TTFT (ms): 1625.24 ;Median TTFT (ms): 1840.38 ;
+L=16384 C=4 seed=104 cached_tokens=17675: Input token throughput (tok/s): 10070.81 ;Mean TTFT (ms): 5924.85 ;Median TTFT (ms): 6590.60 ;
+L=32768 C=1 seed=105 cached_tokens=33918: Input token throughput (tok/s): 8490.61 ;Mean TTFT (ms): 3857.47 ;Median TTFT (ms): 4295.78 ;
+L=32768 C=4 seed=106 cached_tokens=33560: Input token throughput (tok/s): 8185.93 ;Mean TTFT (ms): 14423.25 ;Median TTFT (ms): 16927.64 ;
+server.log error-ish lines: 1
+DONE

@@ -1,0 +1,12 @@
+test_gqa_head_dim_128_ragged_batch (__main__.TestSM120FP8RaggedPrefill.test_gqa_head_dim_128_ragged_batch) ... [CI Test Method] TestSM120FP8RaggedPrefill.test_gqa_head_dim_128_ragged_batch
+ok
+test_gqa_head_dim_256_with_layer_scaling_and_kv_scale (__main__.TestSM120FP8RaggedPrefill.test_gqa_head_dim_256_with_layer_scaling_and_kv_scale) ... [CI Test Method] TestSM120FP8RaggedPrefill.test_gqa_head_dim_256_with_layer_scaling_and_kv_scale
+ok
+test_quantization_saturates_like_the_kv_pool (__main__.TestSM120FP8RaggedPrefill.test_quantization_saturates_like_the_kv_pool) ... [CI Test Method] TestSM120FP8RaggedPrefill.test_quantization_saturates_like_the_kv_pool
+ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 3.769s
+
+OK
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
