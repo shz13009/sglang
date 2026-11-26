@@ -126,14 +126,14 @@ class TestSM120FP8RaggedPrefill(CustomTestCase):
 
     def _assert_close_to_reference(self, **case):
         bf16_o, floor_o, floor_lse, o, o_with_lse, lse = self._run(**case)
-        # Measured on an RTX 5090: 0.99984 (hd128) and 0.99996 (hd256).
+        # Measured on an RTX 5090: 0.99984 (hd128) and 0.99995 (hd256).
         self.assertGreater(_cosine(o, floor_o), 0.9995)
         # LSE feeds merge_state with the paged prefix, so it must be log2-based like
-        # FA2's; measured max abs diff 0.0023, a base mismatch is off by ~30%.
+        # FA2's; measured max abs diff 0.0023 / 0.0020, a base mismatch is off by ~30%.
         torch.testing.assert_close(lse, floor_lse, atol=1e-2, rtol=0)
         # The LSE variant is a separate kernel specialization of the same math.
         torch.testing.assert_close(o_with_lse, o)
-        # FP8 rounding alone measured 0.99918 (hd128) and 0.99635 (hd256, 4x logits).
+        # FP8 rounding alone measured 0.99918 (hd128) and 0.99693 (hd256, 4x K/V).
         self.assertGreater(_cosine(o, bf16_o), 0.99)
 
     def test_gqa_head_dim_128_ragged_batch(self):
