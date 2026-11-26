@@ -1400,6 +1400,9 @@ class Envs:
     # ===================================================================
     SGLANG_IS_FLASHINFER_AVAILABLE = EnvBool(True)
     SGLANG_FLASHINFER_USE_PAGED = EnvBool(False)
+    # Opt-in: on SM120 with an FP8 KV cache, quantize the new tokens of an
+    # extend to FP8 and run them through FlashInfer's cute-dsl-prims FMHA.
+    SGLANG_ENABLE_FLASHINFER_SM120_FP8_RAGGED_PREFILL = EnvBool(False)
     # Force FlashInfer decode on (1) or off (0) tensor cores; unset picks from
     # the KV cache dtype and the GQA group size.
     SGLANG_FLASHINFER_USE_TENSOR_CORE = EnvBool(None)

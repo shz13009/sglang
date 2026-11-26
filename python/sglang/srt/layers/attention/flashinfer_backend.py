@@ -36,6 +36,10 @@ from sglang.srt.layers.attention.base_attn_backend import (
     resolve_window_id_space,
     resolve_window_kv_pool,
 )
+from sglang.srt.layers.attention.flashinfer_sm120_fp8_prefill import (
+    SM120FP8RaggedPrefill,
+    sm120_fp8_ragged_prefill_unsupported_reason,
+)
 from sglang.srt.layers.cp.base import (
     CPAttentionBackendKind,
     get_cp_strategy,
@@ -73,6 +77,7 @@ from sglang.srt.speculative.spec_utils import (
     resolve_draft_decode_window,
 )
 from sglang.srt.utils import is_flashinfer_available, next_power_of_2
+from sglang.srt.utils.device import is_sm120
 
 if TYPE_CHECKING:
     from sglang.srt.layers.radix_attention import RadixAttention
@@ -615,6 +620,12 @@ class FlashInferAttnBackend(AttentionBackend):
                 )
             )
 
+        self.sm120_fp8_ragged_prefill = (
+            None
+            if skip_prefill
+            else self._create_sm120_fp8_ragged_prefill(model_runner)
+        )
+
         # Create indices updater
         if not skip_prefill:
             self.indices_updater_prefill = FlashInferIndicesUpdaterPrefill(
@@ -634,6 +645,51 @@ class FlashInferAttnBackend(AttentionBackend):
         self.full_cg_prefill_wrappers: Optional[
             List[BatchPrefillWithPagedKVCacheWrapper]
         ] = None
+
+    def _create_sm120_fp8_ragged_prefill(
+        self, model_runner: ModelRunner
+    ) -> Optional[SM120FP8RaggedPrefill]:
+        if not envs.SGLANG_ENABLE_FLASHINFER_SM120_FP8_RAGGED_PREFILL.get():
+            return None
+        model_config = model_runner.model_config
+        # Same head counts the ragged wrapper is planned with.
+        num_qo_heads = (
+            model_config.get_max_num_attention_heads() // get_parallel().attn_tp_size
+        )
+        num_kv_heads = model_config.get_num_kv_heads(
+            get_parallel().attn_tp_size, get_parallel().attn_dcp_size
+        )
+        reason = sm120_fp8_ragged_prefill_unsupported_reason(
+            device_is_sm120=is_sm120(),
+            kv_cache_dtype=self.flashinfer_kv_cache_dtype,
+            model_dtype=model_runner.dtype,
+            head_dim=model_config.head_dim,
+            v_head_dim=model_config.v_head_dim,
+            num_qo_heads=num_qo_heads,
+            num_kv_heads=num_kv_heads,
+            has_wrapper_dispatch=self.dispatch_reason is not None,
+            ragged_prefill_disabled=(
+                self.use_paged
+                or self.enable_deterministic
+                or self.is_multimodal
+                or self.enable_mis
+            ),
+        )
+        if reason is not None:
+            raise ValueError(
+                "SGLANG_ENABLE_FLASHINFER_SM120_FP8_RAGGED_PREFILL is set, but "
+                + reason
+            )
+        logger.info("FlashInfer prefill: SM120 FP8 ragged attention enabled.")
+        return SM120FP8RaggedPrefill(
+            wrapper=BatchPrefillWithRaggedKVCacheWrapper(
+                self.workspace_buffer, "NHD", backend="cute-dsl-prims"
+            ),
+            num_qo_heads=num_qo_heads,
+            num_kv_heads=num_kv_heads,
+            head_dim=model_config.head_dim,
+            out_dtype=model_runner.dtype,
+        )
 
     def prefill_cp_unsupported_reason(self) -> Optional[str]:
         """Why zigzag prefill CP cannot run on this backend, or None if it can.
@@ -1635,6 +1691,13 @@ class FlashInferAttnBackend(AttentionBackend):
             # `self.token_to_kv_pool` for this layer. This enables attention over
             # previously cached context without re-materializing KV tensors (e.g., the
             # IQuestLoopCoder path uses token_to_kv_pool as the KV source).
+            fp8_ragged = self.sm120_fp8_ragged_prefill
+            # A pool-sourced K/V is already FP8, so only fresh K/V is requantized.
+            use_fp8_ragged = (
+                fp8_ragged is not None
+                and k is not None
+                and fp8_ragged.supports_layer(layer)
+            )
             if k is None and v is None:
                 assert not self.prefill_uses_dequant_workspace, (
                     "KV cache must be provided for ragged attention when using FP4 dequant KV cache"
@@ -1651,7 +1714,15 @@ class FlashInferAttnBackend(AttentionBackend):
                 save_kv_cache = False
 
             prefill_wrapper_ragged = self.prefill_wrappers_ragged[wrapper_idx]
-            if self.forward_metadata.extend_no_prefix:
+            if self.forward_metadata.extend_no_prefix and use_fp8_ragged:
+                o = fp8_ragged.forward(
+                    q=q.view(-1, layer.tp_q_head_num, layer.head_dim),
+                    k=k.view(-1, layer.tp_k_head_num, layer.head_dim),
+                    v=v.view(-1, layer.tp_v_head_num, layer.head_dim),
+                    layer=layer,
+                    return_lse=False,
+                )
+            elif self.forward_metadata.extend_no_prefix:
                 # NOTE: FlashInfer currently has limitations with head_dim = 32 or other dimensions
                 # The FlashInfer head_dim limitation itself is tracked here:
                 # https://github.com/flashinfer-ai/flashinfer/issues/1048
@@ -1674,15 +1745,24 @@ class FlashInferAttnBackend(AttentionBackend):
                     )
                     else -1
                 )
-                o1, s1 = prefill_wrapper_ragged.forward_return_lse(
-                    q.view(-1, layer.tp_q_head_num, layer.head_dim),
-                    k.view(-1, layer.tp_k_head_num, layer.head_dim),
-                    v.view(-1, layer.tp_v_head_num, layer.head_dim),
-                    causal=causal,
-                    sm_scale=layer.scaling,
-                    window_left=swa_window_left,
-                    logits_soft_cap=logits_soft_cap,
-                )
+                if use_fp8_ragged:
+                    o1, s1 = fp8_ragged.forward(
+                        q=q.view(-1, layer.tp_q_head_num, layer.head_dim),
+                        k=k.view(-1, layer.tp_k_head_num, layer.head_dim),
+                        v=v.view(-1, layer.tp_v_head_num, layer.head_dim),
+                        layer=layer,
+                        return_lse=True,
+                    )
+                else:
+                    o1, s1 = prefill_wrapper_ragged.forward_return_lse(
+                        q.view(-1, layer.tp_q_head_num, layer.head_dim),
+                        k.view(-1, layer.tp_k_head_num, layer.head_dim),
+                        v.view(-1, layer.tp_v_head_num, layer.head_dim),
+                        causal=causal,
+                        sm_scale=layer.scaling,
+                        window_left=swa_window_left,
+                        logits_soft_cap=logits_soft_cap,
+                    )
                 o2, s2 = prefill_wrapper_paged.forward_return_lse(
                     q.view(-1, layer.tp_q_head_num, layer.head_dim),
                     kv_cache,
@@ -2502,6 +2582,8 @@ class FlashInferIndicesUpdaterPrefill:
                 # which its custom mask keeps to the window.
                 window_left=window.window if window is not None else -1,
             )
+            if self.attn_backend.sm120_fp8_ragged_prefill is not None:
+                self.attn_backend.sm120_fp8_ragged_prefill.plan(qo_indptr=qo_indptr)
 
         if use_sliding_window_kv_pool and not use_swa_source:
             assert self._swa_kv_pool is not None
