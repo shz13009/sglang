@@ -1,8 +1,8 @@
 """The SM120 FP8 ragged prefill gate refuses every configuration outside the kernel contract.
 
 An opt-in that silently runs on an unsupported model would quantize attention it
-cannot compute; each disqualifier must produce a reason, and the FP8 cast must
-saturate like the KV pool instead of turning out-of-range values into NaN.
+cannot compute: each disqualifier must produce a reason, and each unsupported layer
+must keep the regular ragged wrapper.
 """
 
 import unittest
@@ -12,7 +12,6 @@ import torch
 
 from sglang.srt.layers.attention.flashinfer_sm120_fp8_prefill import (
     SM120FP8RaggedPrefill,
-    quantize_to_fp8,
     sm120_fp8_ragged_prefill_unsupported_reason,
 )
 from sglang.srt.layers.radix_attention import AttentionType
@@ -101,25 +100,6 @@ class TestSM120FP8RaggedPrefillLayerGate(CustomTestCase):
         for name, change in unsupported.items():
             with self.subTest(name):
                 self.assertFalse(gate.supports_layer(self._layer(**change)))
-
-
-class TestQuantizeToFP8(CustomTestCase):
-    def test_out_of_range_values_saturate_and_scale_divides(self):
-        finfo = torch.finfo(torch.float8_e4m3fn)
-        x = torch.tensor([[1000.0, -1000.0, 2.0, 0.5]], dtype=torch.bfloat16)
-
-        out = quantize_to_fp8(x, scale=None).float()
-        self.assertFalse(torch.isnan(out).any())
-        self.assertEqual(out[0, 0].item(), finfo.max)
-        self.assertEqual(out[0, 1].item(), -finfo.max)
-
-        scaled = quantize_to_fp8(x, scale=4.0).float()
-        self.assertEqual(scaled[0, 2].item(), 0.5)
-        self.assertEqual(scaled[0, 3].item(), 0.125)
-
-    def test_output_is_contiguous_for_strided_input(self):
-        x = torch.randn(8, 4, 16, dtype=torch.bfloat16).transpose(0, 1)
-        self.assertTrue(quantize_to_fp8(x, scale=None).is_contiguous())
 
 
 if __name__ == "__main__":

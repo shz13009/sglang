@@ -10,11 +10,12 @@ mismatch) keeps the regular ragged wrapper. See sgl-project/sglang#52389.
 
 from __future__ import annotations
 
+import functools
 from typing import TYPE_CHECKING, Optional, Tuple, Union
 
 import torch
 
-from sglang.kernels.ops.quantization.fp8_kernel import saturate_to_fp8_range
+from sglang.kernels.ops.quantization.fp8_kernel import static_quant_fp8
 from sglang.srt.layers.radix_attention import AttentionType
 
 if TYPE_CHECKING:
@@ -68,11 +69,16 @@ def sm120_fp8_ragged_prefill_unsupported_reason(
     return None
 
 
+@functools.lru_cache(maxsize=None)
+def _scale_tensor(scale: float, device: torch.device) -> torch.Tensor:
+    # One device copy per distinct per-layer scale, so the hot path never copies H2D.
+    return torch.tensor([scale], dtype=torch.float32, device=device)
+
+
 def quantize_to_fp8(x: torch.Tensor, scale: Optional[float]) -> torch.Tensor:
-    # Same convention as the FP8 KV pool: store value / scale, saturated.
-    if scale is not None:
-        x = x / scale
-    return saturate_to_fp8_range(x, PRIMS_FP8_DTYPE).to(PRIMS_FP8_DTYPE).contiguous()
+    # Same convention as the FP8 KV pool: store value / scale, saturated; one launch.
+    scale_tensor = _scale_tensor(1.0 if scale is None else scale, x.device)
+    return static_quant_fp8(x.contiguous(), scale_tensor)[0]
 
 
 class SM120FP8RaggedPrefill:
